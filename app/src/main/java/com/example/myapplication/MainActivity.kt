@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import java.lang.NullPointerException
 import android.os.Bundle
 import android.os.Message
 import androidx.activity.ComponentActivity
@@ -22,6 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ModifierInfo
+import androidx.compose.ui.res.stringResource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,30 +39,28 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background) {
-                    GreetingText(message = "Hola!", from ="Yo" )
+                    GreetingImage(message = getString(R.string.saludo_text), from = getString(R.string.signature_text))
                 }
             }
         }
     }
 }
-
-
-
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun GreetingText(modifier: Modifier = Modifier, message: String, from: String) {
+fun GreetingText(message: String, from: String, modifier: Modifier = Modifier) {
 
     Column (
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ){
-
-
         Text(
             text = message,
             fontSize = 100.sp,
             lineHeight = 116.sp,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+                    modifier = Modifier
+                    .padding(16.dp)
+                .align(alignment = Alignment.CenterHorizontally)
         )
 
         Text(
@@ -63,18 +68,25 @@ fun GreetingText(modifier: Modifier = Modifier, message: String, from: String) {
             fontSize = 36.sp,
             modifier = Modifier
                 .padding(16.dp)
-                .align(alignment = Alignment.End)
+                .align(alignment = Alignment.CenterHorizontally)
         )
     }
 }
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun GreetingImage(message: String, from: String, modifier: Modifier){
-    val image = painterResource(id = R.drawable.androidparty)
-    Image(
-        painter = image,
-        contentDescription = null
-    )
+fun GreetingImage(message: String, from: String){
+    val image = painterResource(id = R.drawable.peakpx)
+    Box {
+        Image(
+            painter = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            alpha = 0.5F
+        )
+        GreetingText(message = message, from = from, modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp))
+    }
 
 }
 
@@ -84,10 +96,6 @@ fun GreetingImage(message: String, from: String, modifier: Modifier){
 @Composable
 fun GreetingPreview() {
     MyApplicationTheme {
-        GreetingImage(message = "Hola!", from = "De mí")
+        GreetingImage(stringResource(id = R.string.saludo_text), from = stringResource(id = R.string.signature_text))
     }
-}
-
-fun GreetingImage(message: String, from: String) {
-
 }

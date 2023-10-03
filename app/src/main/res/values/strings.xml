@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="saludo_text">Te quiero</string>
+    <string name="signature_text">de tu programador</string>
 </resources>
